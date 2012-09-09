@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+c7960d6e516323509280605b2487355f includes/moc_Boot.cxx
+d440d299b530d3b8a72275850f32c292 includes/moc_Logger.cxx
+e63ed15e8040072eabec3f79909030be includes/moc_Wott.cxx

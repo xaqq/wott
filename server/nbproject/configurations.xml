@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="80">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df name="server" root="/home/xaqq/wott/server">
+      <df name="source">
+        <df name="build">
+          <df name="CMakeFiles">
+            <df name="CMakeTmp">
+            </df>
+            <df name="CompilerIdC">
+              <in>CMakeCCompilerId.c</in>
+              <in>CMakeCCompilerId.c</in>
+              <in>a.out</in>
+            </df>
+            <df name="CompilerIdCXX">
+              <in>CMakeCXXCompilerId.cpp</in>
+              <in>CMakeCXXCompilerId.cpp</in>
+              <in>a.out</in>
+            </df>
+            <df name="Progress">
+            </df>
+            <df name="wott-server.dir">
+              <df name="includes">
+              </df>
+              <df name="src">
+              </df>
+              <in>CXX.includecache</in>
+              <in>DependInfo.cmake</in>
+              <in>build.make</in>
+              <in>cmake_clean.cmake</in>
+              <in>depend.internal</in>
+              <in>depend.make</in>
+              <in>flags.make</in>
+              <in>link.txt</in>
+              <in>progress.make</in>
+            </df>
+            <in>CMakeCCompiler.cmake</in>
+            <in>CMakeCXXCompiler.cmake</in>
+            <in>CMakeDetermineCompilerABI_C.bin</in>
+            <in>CMakeDetermineCompilerABI_CXX.bin</in>
+            <in>CMakeDirectoryInformation.cmake</in>
+            <in>CMakeError.log</in>
+            <in>CMakeOutput.log</in>
+            <in>CMakeSystem.cmake</in>
+            <in>Makefile.cmake</in>
+            <in>Makefile2</in>
+            <in>TargetDirectories.txt</in>
+            <in>cmake.check_cache</in>
+            <in>progress.marks</in>
+          </df>
+          <df name="includes">
+            <in>moc_Boot.cxx</in>
+            <in>moc_Logger.cxx</in>
+            <in>moc_Wott.cxx</in>
+          </df>
+          <in>CMakeCache.txt</in>
+          <in>Makefile</in>
+          <in>cmake_install.cmake</in>
+          <in>netbeans_script.sh</in>
+        </df>
+        <df name="includes">
+          <in>wott.h</in>
+        </df>
+        <df name="src">
+          <in>main.cpp</in>
+          <in>main.cpp</in>
+        </df>
+        <in>CMakeLists.txt</in>
+      </df>
+    </df>
+    <df name="source" root="../../wott/server/source">
+      <df name="build">
+        <df name="CMakeFiles">
+          <df name="CMakeTmp">
+          </df>
+          <df name="CompilerIdC">
+          </df>
+          <df name="CompilerIdCXX">
+          </df>
+          <df name="Progress">
+            <in>5</in>
+            <in>count.txt</in>
+          </df>
+          <df name="wott-server.dir">
+            <df name="includes">
+            </df>
+            <df name="src">
+            </df>
+          </df>
+        </df>
+        <df name="includes">
+        </df>
+      </df>
+      <df name="includes">
+        <in>Boot.hpp</in>
+        <in>Logger.hpp</in>
+        <in>LoggerThread.h</in>
+        <in>Wott.hpp</in>
+      </df>
+      <df name="src">
+        <in>Boot.cpp</in>
+        <in>Logger.cpp</in>
+        <in>Logger.hpp</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>../../wott/server/source/build/source/build/Makefile</itemPath>
+      <itemPath>../../wott/server/source/build/netbeans_script.sh</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>/home/xaqq/wott/server</Elem>
+  </sourceRootList>
+  <projectmakefile>../../wott/server/source/build/source/build/Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>../../wott/server/source/build</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>../../wott/server/source/build/wott-server</executablePath>
+        </makeTool>
+      </makefileType>
+      <item path="/home/xaqq/wott/server/source/CMakeLists.txt"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeCache.txt"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeCCompiler.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeCXXCompiler.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeDetermineCompilerABI_C.bin"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeDetermineCompilerABI_CXX.bin"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeDirectoryInformation.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeError.log"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeOutput.log"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CMakeSystem.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CompilerIdC/a.out"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+            ex="false"
+            tool="1"
+            flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>source/includes</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/CompilerIdCXX/a.out"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/Makefile.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/Makefile2"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/Progress/5"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/Progress/count.txt"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/TargetDirectories.txt"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/cmake.check_cache"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/progress.marks"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/CXX.includecache"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/DependInfo.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/build.make"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/cmake_clean.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/depend.internal"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/depend.make"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/flags.make"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/link.txt"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/CMakeFiles/wott-server.dir/progress.make"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/Makefile"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/cmake_install.cmake"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/build/netbeans_script.sh"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <item path="/home/xaqq/wott/server/source/includes/wott.h"
+            ex="true"
+            tool="3"
+            flavor="0">
+      </item>
+      <folder path="source">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/qt4</pElem>
+            <pElem>source/includes</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="source/includes/LoggerThread.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="source/src/Boot.cpp" ex="false" tool="1" flavor="0">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/qt4/QtGui</pElem>
+            <pElem>source/build</pElem>
+            <pElem>/usr/include/qt4/QtCore</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>QT_CORE_LIB</Elem>
+            <Elem>QT_GUI_LIB</Elem>
+            <Elem>QT_NO_DEBUG</Elem>
+          </preprocessorList>
+        </ccTool>
+      </item>
+      <item path="source/src/Logger.hpp" ex="true" tool="3" flavor="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

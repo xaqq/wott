@@ -1,0 +1,1 @@
+/usr/bin/c++   -W -Wall -std=c++0x    CMakeFiles/wott-server.dir/src/main.cpp.o CMakeFiles/wott-server.dir/src/Boot.cpp.o CMakeFiles/wott-server.dir/src/Logger.cpp.o CMakeFiles/wott-server.dir/includes/moc_Wott.cxx.o CMakeFiles/wott-server.dir/includes/moc_Boot.cxx.o CMakeFiles/wott-server.dir/includes/moc_Logger.cxx.o  -o wott-server -rdynamic -lQtGui -lQtCore 
