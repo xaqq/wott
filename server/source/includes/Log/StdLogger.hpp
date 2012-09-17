@@ -23,7 +23,7 @@ public:
     virtual ~StdLogger();
 
 public slots:
-    void logInfo(const QString &);
+    virtual void logInfo(const QString &);
 private:
 
 };

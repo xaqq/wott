@@ -16,11 +16,6 @@
 
 void Boot::startInit()
 {
-//    QEventLoop  logLoop;
-//    connect(&logLoop, signal)
-//    QTimer::singleShot(0, this, SLOT(initLog()));
-//
-//    e.exec();
     initLog();
 }
 
@@ -35,6 +30,6 @@ bool Boot::initLog()
     Log::_thread->start();
     logger->registerWithManager();
 
-    Log::info("Toto");
+    Log::info("Logger thread initialized");
     return true;
 }

@@ -17,7 +17,12 @@ namespace Log
 {
 
 /**
- * Manager class for logging debug, warning or error
+ * \brief Manager class for logging debug, warning or error.
+ *
+ * The Log manager class handle a list of Logger instance (derived class from
+ * Log::AbstractLogger\n
+ * When the newLogger slot is called, the manager connects the logger slot
+ * to its signal sigLogInfo.
  */
 class Manager : public ::QObject
 {
@@ -26,12 +31,28 @@ class Manager : public ::QObject
 public:
     Manager();
     virtual ~Manager();
+
+    /**
+     * Dispatch the log message to the logger by emitting sigLogInfo.
+     * @param Message
+     */
     void logInfo(const QString &s);
 
 public slots:
-    void newLogger(AbstractLogger *ptr);
+    /**
+     * Called when a new logger want to be registered. This slot is
+     * connected to Log::AbstractLogger::sigRegister using a BlockingQueued
+     * connection
+     * @param logger
+     */
+    void newLogger(AbstractLogger *logger);
 
 signals:
+    /**
+     * Emitted when a log message with priority "info" is send.
+     * Loggers' logInfo slot will be notified.
+     * @param Message
+     */
     void sigLogInfo(const QString &);
 
 private:

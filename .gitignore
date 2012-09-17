@@ -1,2 +1,4 @@
 server/nbproject/private
 server/source/build
+server/doc/html
+server/doc/latex
