@@ -1,17 +1,14 @@
-#include <QCoreApplication>
 #include "Wott.hpp"
+#include "WottApplication.hpp"
 #include "Boot.hpp"
 
 int main(int ac, char **av)
 {
-    QCoreApplication app(ac, av);
-    BootPtr boot;
+    WottApplication app(ac, av);
+    Boot *boot;
 
-    boot = Boot::instance();
-    if (!boot->init())
-    {
-        boot->unload();
-        return -1;
-    }
+    boot = new Boot;
+    QTimer::singleShot(0, boot, SLOT(startInit()));
+
     return app.exec();
 }

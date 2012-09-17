@@ -6,48 +6,35 @@
  */
 
 #include "Boot.hpp"
+#include <iostream>
+#include <qt4/QtCore/qcoreapplication.h>
 #include <QThread>
-#include "Logger.hpp"
-#include        <iostream>
-#include <QString>
-#include <qt4/QtCore/qobject.h>
+#include <qt4/QtCore/qtimer.h>
+#include "Log.hpp"
+#include "Log/Manager.hpp"
+#include "Log/StdLogger.hpp"
 
-BootPtr Boot::_me(0);
-
-Boot::Boot()
+void Boot::startInit()
 {
+//    QEventLoop  logLoop;
+//    connect(&logLoop, signal)
+//    QTimer::singleShot(0, this, SLOT(initLog()));
+//
+//    e.exec();
+    initLog();
 }
 
-BootPtr Boot::instance()
+bool Boot::initLog()
 {
-    if (!_me)
-        _me = BootPtr(new Boot);
-    return _me;
-}
+    Log::_thread = new QThread;
+    Log::_manager = new Log::Manager;
+    Log::AbstractLogger *logger = new Log::StdLogger;
 
-Boot::Boot(const Boot& orig)
-{
-}
+    std::cout << "Thread: " << QThread::currentThread() << std::endl;
+    Log::_manager->moveToThread(Log::_thread);
+    Log::_thread->start();
+    logger->registerWithManager();
 
-Boot::~Boot()
-{
-
-}
-
-bool    Boot::init()
-{
-    QThread *logThread = new QThread;
-    Logger *l = new Logger;
-
-    l->moveToThread(logThread);
-    logThread->start();
-    QString     s("Salut");
-    Logger::Info(l, s);
-
-    return false;
-}
-
-bool    Boot::unload()
-{
-   _me = BootPtr(0);
+    Log::info("Toto");
+    return true;
 }

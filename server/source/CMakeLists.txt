@@ -2,15 +2,27 @@ cmake_minimum_required(VERSION 2.8)
 PROJECT(woot-server)
 FIND_PACKAGE(Qt4 REQUIRED)
 
-include_directories ("${PROJECT_SOURCE_DIR}/includes")
+include_directories ("${PROJECT_SOURCE_DIR}/includes"
+  "${PROJECT_SOURCE_DIR}/includes/event")
 SET(CMAKE_CXX_FLAGS "-W -Wall -std=c++0x")
 
 SET(wott_SOURCES src/main.cpp
   src/Boot.cpp
-  src/Logger.cpp)
+  src/WottApplication.cpp
+  src/Log.cpp
+  src/Log/Manager.cpp
+  src/Log/AbstractLogger.cpp
+  src/Log/StdLogger.cpp
+  )
+
 SET(wott_HEADERS includes/Wott.hpp
   includes/Boot.hpp
-  includes/Logger.hpp)
+  includes/WottApplication.hpp
+  includes/Log.hpp
+  includes/Log/Manager.hpp
+  includes/Log/AbstractLogger.hpp
+  includes/Log/StdLogger.hpp
+)
 
 QT4_WRAP_CPP(wott_HEADERS_MOC ${wott_HEADERS})
 
