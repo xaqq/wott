@@ -28,11 +28,33 @@ extern QThread *_thread;
 extern Manager *_manager;
 
 /**
+ * \brief Log message with priority "debug"
+ * This is done by calling logDebug on the manager
+ * @param QString Message to be logged
+ */
+void debug(const QString &);
+
+/**
  * \brief Log message with priority "info"
  * This is done by calling logInfo on the manager
  * @param QString Message to be logged
  */
 void info(const QString &);
+
+/**
+ * \brief Log message with priority "warn"
+ * This is done by calling logWarn on the manager
+ * @param QString Message to be logged
+ */
+void warn(const QString &);
+
+/**
+ * \brief Log message with priority "error"
+ * This is done by calling logError on the manager
+ * @param QString Message to be logged
+ */
+void error(const QString &);
+
 };
 
 #endif	/* LOG_HPP */

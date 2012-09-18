@@ -7,7 +7,12 @@
 
 #include <QThread>
 #include "WottApplication.hpp"
+#include "Log.hpp"
 #include <iostream>
+#include <unistd.h>
+#include <qt4/QtCore/qobjectdefs.h>
+#include "Log/Manager.hpp"
+
 
 WottApplication::~WottApplication()
 {
@@ -36,4 +41,11 @@ bool WottApplication::notify(QObject *rec, QEvent *ev)
         std::cerr << "Unknown exception!" << std::endl;
         abort();
     }
+}
+
+void    WottApplication::shutdownServer()
+{
+    QMetaObject::invokeMethod(Log::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
+    std::cout << "Server shutdown complete" << std::endl;
+    exit(0);
 }

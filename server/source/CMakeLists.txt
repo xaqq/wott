@@ -9,6 +9,7 @@ SET(CMAKE_CXX_FLAGS "-W -Wall -std=c++0x")
 SET(wott_SOURCES src/main.cpp
   src/Boot.cpp
   src/WottApplication.cpp
+  src/sigDaemon.cpp
   src/Log.cpp
   src/Log/Manager.cpp
   src/Log/AbstractLogger.cpp
@@ -19,6 +20,7 @@ SET(wott_SOURCES src/main.cpp
 
 SET(wott_HEADERS includes/Wott.hpp
   includes/Boot.hpp
+  includes/sigDaemon.hpp
   includes/WottApplication.hpp
   includes/Log.hpp
   includes/Log/Manager.hpp

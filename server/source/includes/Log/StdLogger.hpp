@@ -10,6 +10,7 @@
 
 #include "Log/AbstractLogger.hpp"
 #include "AbstractLogger.hpp"
+#include <unistd.h>
 
 namespace Log
 {
@@ -23,8 +24,10 @@ public:
     virtual ~StdLogger();
 
 public slots:
-    virtual void logInfo(const QString &);
-private:
+    void logDebug(const QString &s);
+    void logInfo(const QString &s);
+    void logWarn(const QString &s);
+    void logError(const QString &s);
 
 };
 

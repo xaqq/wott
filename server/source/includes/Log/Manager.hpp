@@ -33,10 +33,28 @@ public:
     virtual ~Manager();
 
     /**
+     * Dispatch the log message to the logger by emitting sigLogDebug.
+     * @param Message
+     */
+    void logDebug(const QString &s);
+
+    /**
      * Dispatch the log message to the logger by emitting sigLogInfo.
      * @param Message
      */
     void logInfo(const QString &s);
+
+    /**
+     * Dispatch the log message to the logger by emitting siglogWarn.
+     * @param Message
+     */
+    void logWarn(const QString &s);
+
+    /**
+     * Dispatch the log message to the logger by emitting siglogError.
+     * @param Message
+     */
+    void logError(const QString &s);
 
 public slots:
     /**
@@ -47,13 +65,40 @@ public slots:
      */
     void newLogger(AbstractLogger *logger);
 
+    /**
+     * Called when the whole module must shut down. This slot is triggered
+     * when the program receives SIGINT for example.
+     */
+    void shutdownModule();
+
 signals:
+    /**
+     * Emitted when a log message with priority "debug" is send.
+     * Loggers' logDebug slot will be notified.
+     * @param Message
+     */
+    void sigLogDebug(const QString &);
+
     /**
      * Emitted when a log message with priority "info" is send.
      * Loggers' logInfo slot will be notified.
      * @param Message
      */
     void sigLogInfo(const QString &);
+
+    /**
+     * Emitted when a log message with priority "warn" is send.
+     * Loggers' logWarn slot will be notified.
+     * @param Message
+     */
+    void sigLogWarn(const QString &);
+
+    /**
+     * Emitted when a log message with priority "error" is send.
+     * Loggers' logError slot will be notified.
+     * @param Message
+     */
+    void sigLogError(const QString &);
 
 private:
     Manager(const Manager& orig);

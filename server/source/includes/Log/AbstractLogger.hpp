@@ -32,7 +32,10 @@ public:
     void registerWithManager();
 
 public slots:
+    virtual void logDebug(const QString &) = 0;
     virtual void logInfo(const QString &) = 0;
+    virtual void logWarn(const QString &) = 0;
+    virtual void logError(const QString &) = 0;
 
 signals:
     /**

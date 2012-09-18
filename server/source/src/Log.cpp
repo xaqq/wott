@@ -11,7 +11,22 @@
 QThread *Log::_thread = 0;
 Log::Manager *Log::_manager = 0;
 
+void Log::debug(const QString &s)
+{
+    Log::_manager->logDebug(s);
+}
+
 void Log::info(const QString &s)
 {
     Log::_manager->logInfo(s);
+}
+
+void Log::warn(const QString &s)
+{
+    Log::_manager->logWarn(s);
+}
+
+void Log::error(const QString &s)
+{
+    Log::_manager->logError(s);
 }

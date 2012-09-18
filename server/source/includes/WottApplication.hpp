@@ -10,7 +10,6 @@
 
 #include "Wott.hpp"
 
-
 class WottApplication : public QCoreApplication
 {
     Q_OBJECT;
@@ -20,9 +19,10 @@ public:
     {
     }
     virtual ~WottApplication();
-    bool notify(QObject *rec, QEvent *ev);
-private:
+    bool notify(QObject *rec, QEvent *ev) override;
 
+public slots:
+    void shutdownServer();
 };
 
 #endif	/* WOOTAPPLICATION_HPP */
