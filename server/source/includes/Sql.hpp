@@ -28,6 +28,7 @@ extern QThread *_thread;
 extern Manager *_manager;
 };
 
+#include "Sql/Manager.hpp"
 
 #endif	/* SQL_HPP */
 

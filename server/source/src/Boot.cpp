@@ -14,9 +14,12 @@
 #include "Log/Manager.hpp"
 #include "Log/StdLogger.hpp"
 
+#include "Sql.hpp"
+
 void Boot::startInit()
 {
     initLog();
+    initSql();
 }
 
 bool Boot::initLog()
@@ -31,5 +34,18 @@ bool Boot::initLog()
     logger->registerWithManager();
 
     Log::info("Logger thread initialized");
+    return true;
+}
+
+bool Boot::initSql()
+{
+    Sql::_thread = new QThread;
+    Sql::_manager = new Sql::Manager;
+
+    std::cout << "Thread: " << QThread::currentThread() << std::endl;
+    Sql::_manager->moveToThread(Sql::_thread);
+    Sql::_thread->start();
+
+    Log::info("Sql thread initialized");
     return true;
 }

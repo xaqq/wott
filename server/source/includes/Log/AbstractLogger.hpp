@@ -9,7 +9,6 @@
 #define	LOG_ABSTRACTLOGGER_HPP
 
 #include "Wott.hpp"
-#include "Log.hpp"
 
 namespace Log
 {

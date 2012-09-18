@@ -6,9 +6,12 @@
  */
 
 #include "Sql/Manager.hpp"
+#include "Log.hpp"
+#include <QTimer>
 
 Sql::Manager::Manager()
 {
+    QTimer::singleShot(0, this, SLOT(init()));
 }
 
 Sql::Manager::Manager(const Sql::Manager&) : QObject(0)
@@ -19,3 +22,31 @@ Sql::Manager::~Manager()
 {
 }
 
+bool Sql::Manager::openConnection()
+{
+    _db = QSqlDatabase::addDatabase("QMYSQL");
+    _db.setHostName("localhost");
+    _db.setDatabaseName("test");
+    _db.setUserName("test");
+    _db.setPassword("test");
+
+    bool ok = _db.open();
+    if (!ok)
+    {
+        Log::info("Sql Fail");
+        return ok;
+    }
+    Log::info("Sql Connection OK");
+
+    const QStringList &t = _db.tables();
+    for (QStringList::const_iterator it = t.constBegin(); it != t.constEnd();
+            it++)
+        Log::info(*it);
+
+    return ok;
+}
+
+void Sql::Manager::init()
+{
+    openConnection();
+}

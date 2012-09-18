@@ -57,5 +57,9 @@ void error(const QString &);
 
 };
 
+#include "Log/AbstractLogger.hpp"
+#include "Log/StdLogger.hpp"
+#include "Log/Manager.hpp"
+
 #endif	/* LOG_HPP */
 

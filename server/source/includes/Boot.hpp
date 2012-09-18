@@ -32,4 +32,6 @@ public slots:
      * @return bool always true
      */
     bool initLog();
+
+    bool initSql();
 };

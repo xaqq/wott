@@ -8,6 +8,7 @@
 #include <qt4/QtCore/qobject.h>
 
 #include "Log/Manager.hpp"
+#include "Log.hpp"
 using namespace Log;
 
 Manager::Manager() : QObject(0)

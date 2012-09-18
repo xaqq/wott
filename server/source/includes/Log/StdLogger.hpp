@@ -9,8 +9,6 @@
 #define	LOG_STDLOGGER_HPP
 
 #include "Log/AbstractLogger.hpp"
-#include "AbstractLogger.hpp"
-#include <unistd.h>
 
 namespace Log
 {

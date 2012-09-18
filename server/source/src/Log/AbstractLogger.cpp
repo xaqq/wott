@@ -6,8 +6,7 @@
  */
 
 #include <qt4/QtCore/qobject.h>
-#include "Log/AbstractLogger.hpp"
-#include "Log/Manager.hpp"
+#include "Log.hpp"
 
 Log::AbstractLogger::AbstractLogger() : ::QObject(0)
 {
