@@ -13,6 +13,8 @@ SET(wott_SOURCES src/main.cpp
   src/Log/Manager.cpp
   src/Log/AbstractLogger.cpp
   src/Log/StdLogger.cpp
+  src/Sql.cpp
+  src/Sql/Manager.cpp
   )
 
 SET(wott_HEADERS includes/Wott.hpp
@@ -22,6 +24,8 @@ SET(wott_HEADERS includes/Wott.hpp
   includes/Log/Manager.hpp
   includes/Log/AbstractLogger.hpp
   includes/Log/StdLogger.hpp
+  includes/Sql.hpp
+  includes/Sql/Manager.hpp
 )
 
 QT4_WRAP_CPP(wott_HEADERS_MOC ${wott_HEADERS})
