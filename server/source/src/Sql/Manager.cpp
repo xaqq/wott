@@ -7,11 +7,11 @@
 
 #include "Sql/Manager.hpp"
 #include "Log.hpp"
+#include "Boot.hpp"
 #include <QTimer>
 
 Sql::Manager::Manager()
 {
-    QTimer::singleShot(0, this, SLOT(init()));
 }
 
 Sql::Manager::Manager(const Sql::Manager&) : QObject(0)
@@ -33,7 +33,7 @@ bool Sql::Manager::openConnection()
     bool ok = _db.open();
     if (!ok)
     {
-        Log::info("Sql Fail");
+        Log::error("Sql Error" + _db.lastError().text());
         return ok;
     }
     Log::info("Sql Connection OK");
@@ -46,7 +46,13 @@ bool Sql::Manager::openConnection()
     return ok;
 }
 
-void Sql::Manager::init()
+void Sql::Manager::init(bool &success)
 {
-    openConnection();
+    success = openConnection();
+}
+
+void Sql::Manager::shutdownModule()
+{
+    Log::info("Sql module shutting down...");
+    _db.close();
 }

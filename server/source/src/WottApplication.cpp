@@ -8,11 +8,10 @@
 #include <QThread>
 #include "WottApplication.hpp"
 #include "Log.hpp"
+#include "Sql.hpp"
 #include <iostream>
 #include <unistd.h>
 #include <qt4/QtCore/qobjectdefs.h>
-#include "Log/Manager.hpp"
-
 
 WottApplication::~WottApplication()
 {
@@ -20,7 +19,6 @@ WottApplication::~WottApplication()
 
 bool WottApplication::notify(QObject *rec, QEvent *ev)
 {
-    // cDebug() << "Called Application::notify()" << endl;
     try
     {
         return QCoreApplication::notify(rec, ev);
@@ -43,8 +41,9 @@ bool WottApplication::notify(QObject *rec, QEvent *ev)
     }
 }
 
-void    WottApplication::shutdownServer()
+void WottApplication::shutdownServer()
 {
+    QMetaObject::invokeMethod(Sql::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
     QMetaObject::invokeMethod(Log::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
     std::cout << "Server shutdown complete" << std::endl;
     exit(0);

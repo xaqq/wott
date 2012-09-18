@@ -10,16 +10,23 @@
 #include <qt4/QtCore/qcoreapplication.h>
 #include <QThread>
 #include <qt4/QtCore/qtimer.h>
+#include <qt4/QtGui/qabstractitemview.h>
 #include "Log.hpp"
-#include "Log/Manager.hpp"
-#include "Log/StdLogger.hpp"
-
 #include "Sql.hpp"
 
 void Boot::startInit()
 {
-    initLog();
-    initSql();
+    if (!initLog())
+    {
+        std::cerr << "Aborting boot" << std::endl;
+        abort();
+    }
+    if (!initSql())
+    {
+        std::cerr << "Aborting boot" << std::endl;
+        QMetaObject::invokeMethod(Log::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
+        abort();
+    }
 }
 
 bool Boot::initLog()
@@ -28,7 +35,6 @@ bool Boot::initLog()
     Log::_manager = new Log::Manager;
     Log::AbstractLogger *logger = new Log::StdLogger;
 
-    std::cout << "Thread: " << QThread::currentThread() << std::endl;
     Log::_manager->moveToThread(Log::_thread);
     Log::_thread->start();
     logger->registerWithManager();
@@ -39,6 +45,8 @@ bool Boot::initLog()
 
 bool Boot::initSql()
 {
+    bool res;
+
     Sql::_thread = new QThread;
     Sql::_manager = new Sql::Manager;
 
@@ -46,6 +54,8 @@ bool Boot::initSql()
     Sql::_manager->moveToThread(Sql::_thread);
     Sql::_thread->start();
 
-    Log::info("Sql thread initialized");
-    return true;
+    QMetaObject::invokeMethod(Sql::_manager, "init", Qt::BlockingQueuedConnection, Q_ARG(bool &, res));
+    if (!res)
+        Log::error("Sql module failed to start. Stopping server.");
+    return res;
 }
