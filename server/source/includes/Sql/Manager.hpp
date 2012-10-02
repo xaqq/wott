@@ -31,13 +31,14 @@ public slots:
 
     /**
      * Init method, it is invoked by the Boot class.
-     * The success bool is set to true or false so the calling
+     * The success bool & is set to true or false so the calling
      * thread (ie the boot process) can know wether it worked or not.
      *
      * This is called with a BlockQueuedConnection
      * @param success reference on a bool.
      */
     void init(bool &success);
+
 private:
     /**
      * This function opens the connection to the database and initializes

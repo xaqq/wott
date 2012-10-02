@@ -60,8 +60,9 @@ bool Boot::initSql()
 
     Sql::_manager->moveToThread(Sql::_thread);
     Sql::_thread->start();
+    QMetaObject::invokeMethod(Sql::_manager, "init", Qt::BlockingQueuedConnection,
+                              Q_ARG(bool &, res));
 
-    QMetaObject::invokeMethod(Sql::_manager, "init", Qt::BlockingQueuedConnection, Q_ARG(bool &, res));
     if (!res)
         Log::error("Sql module failed to start. Stopping server.");
     return res;
