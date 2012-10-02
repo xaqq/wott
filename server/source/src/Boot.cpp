@@ -13,6 +13,7 @@
 #include <qt4/QtGui/qabstractitemview.h>
 #include "Log.hpp"
 #include "Sql.hpp"
+#include "Network.hpp"
 
 void Boot::startInit()
 {
@@ -24,6 +25,13 @@ void Boot::startInit()
     if (!initSql())
     {
         std::cerr << "Aborting boot" << std::endl;
+        QMetaObject::invokeMethod(Log::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
+        abort();
+    }
+    if (!initNetwork())
+    {
+        std::cerr << "Aborting boot" << std::endl;
+        QMetaObject::invokeMethod(Sql::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
         QMetaObject::invokeMethod(Log::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
         abort();
     }
@@ -50,12 +58,27 @@ bool Boot::initSql()
     Sql::_thread = new QThread;
     Sql::_manager = new Sql::Manager;
 
-    std::cout << "Thread: " << QThread::currentThread() << std::endl;
     Sql::_manager->moveToThread(Sql::_thread);
     Sql::_thread->start();
 
     QMetaObject::invokeMethod(Sql::_manager, "init", Qt::BlockingQueuedConnection, Q_ARG(bool &, res));
     if (!res)
         Log::error("Sql module failed to start. Stopping server.");
+    return res;
+}
+
+bool Boot::initNetwork()
+{
+    bool res;
+
+    Network::_thread = new QThread;
+    Network::_manager = new Network::Manager;
+
+    Network::_manager->moveToThread(Network::_thread);
+    Network::_thread->start();
+
+    QMetaObject::invokeMethod(Network::_manager, "init", Qt::BlockingQueuedConnection, Q_ARG(bool &, res));
+    if (!res)
+        Log::error("Network module failed to start. Stopping server.");
     return res;
 }

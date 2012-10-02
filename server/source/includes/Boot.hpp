@@ -33,5 +33,21 @@ public slots:
      */
     bool initLog();
 
+    /**
+     * \brief Initialize the Sql module.
+     * 
+     * Create a SQL connection to the database.
+     * See SQL module documentation for more infos
+     * @return bool success
+     */
     bool initSql();
+
+    /**
+     * \brief Initialize the Network module.
+     * 
+     * Set up a TCP server and a SSL Server.
+     * See Network module documentation for more infos
+     * @return bool success
+     */
+    bool initNetwork();
 };

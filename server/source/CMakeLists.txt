@@ -16,6 +16,9 @@ SET(wott_SOURCES src/main.cpp
   src/Log/StdLogger.cpp
   src/Sql.cpp
   src/Sql/Manager.cpp
+  src/Network.cpp
+  src/Network/Manager.cpp
+  src/Network/SslServer.cpp
   )
 
 SET(wott_HEADERS includes/Wott.hpp
@@ -28,6 +31,8 @@ SET(wott_HEADERS includes/Wott.hpp
   includes/Log/StdLogger.hpp
   includes/Sql.hpp
   includes/Sql/Manager.hpp
+  includes/Network/Manager.hpp
+  includes/Network/SslServer.hpp
 )
 
 QT4_WRAP_CPP(wott_HEADERS_MOC ${wott_HEADERS})
@@ -35,10 +40,9 @@ QT4_WRAP_CPP(wott_HEADERS_MOC ${wott_HEADERS})
 INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-
 SET(QT_USE_QTNETWORK TRUE)
 SET(QT_USE_QTSQL TRUE)
 
 ADD_EXECUTABLE(wott-server ${wott_SOURCES} 
     ${wott_HEADERS_MOC})
-TARGET_LINK_LIBRARIES(wott-server ${QT_LIBRARIES} ${QT_QTSQL_LIBRARIES})
+TARGET_LINK_LIBRARIES(wott-server ${QT_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${QT_QTNETWORK_LIBRARIES})
