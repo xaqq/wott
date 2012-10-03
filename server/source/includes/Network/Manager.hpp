@@ -9,6 +9,8 @@
 #define	NETWORK_MANAGER_HPP
 
 #include "Wott.hpp"
+#include "Network/SslServer.hpp"
+#include <QList>
 
 namespace Network
 {
@@ -37,6 +39,12 @@ public slots:
      * @param success reference on a bool.
      */
     void init(bool &success);
+
+    void newSslClient();
+
+
+private:
+    SslServer *_sslSrv;
 
 };
 }

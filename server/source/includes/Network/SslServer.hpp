@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   SslServer.hpp
  * Author: xaqq
  *
@@ -10,6 +10,7 @@
 
 #include "Wott.hpp"
 #include <QtNetwork/QTcpServer>
+#include <QtNetwork/QSslError>
 
 namespace Network
 {
@@ -21,6 +22,15 @@ public:
     SslServer();
     SslServer(const SslServer& orig);
     virtual ~SslServer();
+
+    void incomingConnection(int fd) override;
+
+public slots:
+    void onSslError(const QList<QSslError> &e);
+    void OnDisconnectedSocket();
+    void OnSocketError(QAbstractSocket::SocketError socketError);
+    void LOLSLOT();
+
 private:
 
 };
