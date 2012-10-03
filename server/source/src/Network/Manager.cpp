@@ -27,7 +27,7 @@ void Network::Manager::init(bool &success)
 {
     _sslSrv = new Network::SslServer;
 //    connect(_sslSrv, SIGNAL(newReadyConnection()), this, SLOT(newSslClient()));
-    success = _sslSrv->listen(QHostAddress::Any, 4242);
+    success = _sslSrv->listen(QHostAddress::Any, 31337);
     if (success)
         Log::info("Listening on port" + QString::number(_sslSrv->serverPort()));
 }

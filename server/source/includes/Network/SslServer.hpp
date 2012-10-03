@@ -10,30 +10,31 @@
 
 #include "Wott.hpp"
 #include <QtNetwork/QTcpServer>
+#include <QtNetwork/QSslSocket>
 #include <QtNetwork/QSslError>
 
 namespace Network
 {
 
-class SslServer : public QTcpServer
-{
+  class SslServer : public QTcpServer
+  {
     Q_OBJECT
-public:
+    public:
     SslServer();
     SslServer(const SslServer& orig);
     virtual ~SslServer();
 
     void incomingConnection(int fd) override;
 
-public slots:
+  public slots:
     void onSslError(const QList<QSslError> &e);
     void OnDisconnectedSocket();
     void OnSocketError(QAbstractSocket::SocketError socketError);
     void LOLSLOT();
+    void OnModeChanged(QSslSocket::SslMode m);
+  private:
 
-private:
-
-};
+  };
 }
 #endif	/* NETWORK_SSLSERVER_HPP */
 

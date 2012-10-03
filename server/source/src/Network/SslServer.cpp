@@ -26,30 +26,42 @@ Network::SslServer::~SslServer()
 
 void Network::SslServer::incomingConnection(int fd)
 {
-    Log::warn("here");
-    QSslSocket *serverSocket = new QSslSocket;
-    if (serverSocket->setSocketDescriptor(fd))
+  Log::warn("here");
+  QSslSocket *serverSocket = new QSslSocket;
+  if (serverSocket->setSocketDescriptor(fd))
     {
-        serverSocket->setLocalCertificate("/tmp/key");
-        serverSocket->setPrivateKey("/tmp/sslserver.pem");
-        serverSocket->setProtocol(QSsl::SslV3);
+      QList<QSslCertificate> certs = QSslCertificate::fromPath("/tmp/server.crt");
+      qDebug() << "Loaded # certs from disk:" << certs.size();
+      qDebug() << "Cert is null?" << certs.first().isNull();
 
-        serverSocket->setPeerVerifyMode(QSslSocket::VerifyNone);
-//        connect(serverSocket, SIGNAL(encrypted()), Network::_manager, SLOT(newSslClient()));
-        connect(serverSocket, SIGNAL(encrypted()), this, SLOT(LOLSLOT()));
-        connect(serverSocket, SIGNAL(sslErrors(const QList<QSslError> &)),
-                this, SLOT(onSslError(const QList<QSslError> &)));
-        connect(serverSocket, SIGNAL(disconnected()), this, SLOT(OnDisconnectedSocket()));
-        connect(serverSocket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(OnSocketError(QAbstractSocket::SocketError)));
-        Log::warn("s state = " + QString::number(serverSocket->state()));
 
-        serverSocket->startServerEncryption();
-//        addPendingConnection(serverSocket);
+      connect(serverSocket, SIGNAL(modeChanged(QSslSocket::SslMode)),
+	      this, SLOT(OnModeChanged(QSslSocket::SslMode)));
+      serverSocket->setLocalCertificate(certs.first());
+      serverSocket->setPrivateKey("/tmp/server.key");
+      serverSocket->setProtocol(QSsl::TlsV1SslV3);
+
+      serverSocket->setPeerVerifyMode(QSslSocket::VerifyNone);
+      //        connect(serverSocket, SIGNAL(encrypted()), Network::_manager, SLOT(newSslClient()));
+      connect(serverSocket, SIGNAL(encrypted()), this, SLOT(LOLSLOT()));
+      connect(serverSocket, SIGNAL(sslErrors(const QList<QSslError> &)),
+	      this, SLOT(onSslError(const QList<QSslError> &)));
+      connect(serverSocket, SIGNAL(disconnected()), this, SLOT(OnDisconnectedSocket()));
+      connect(serverSocket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(OnSocketError(QAbstractSocket::SocketError)));
+      Log::warn("s state = " + QString::number(serverSocket->state()));
+	
+      serverSocket->startServerEncryption();
+      //        addPendingConnection(serverSocket);
     }
-    else
+  else
     {
-        delete serverSocket;
+      delete serverSocket;
     }
+}
+
+void Network::SslServer::OnModeChanged(QSslSocket::SslMode m)
+{
+  Log::warn("New socket state = " + QString::number(m));
 }
 
 void Network::SslServer::onSslError(const QList<QSslError> &e)
