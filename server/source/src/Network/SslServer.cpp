@@ -9,6 +9,7 @@
 #include "Network/SslServer.hpp"
 #include <QtNetwork/QSslSocket>
 #include <QtNetwork/QSslCipher>
+#include <QByteArray>
 
 #include "Log.hpp"
 
@@ -26,42 +27,45 @@ Network::SslServer::~SslServer()
 
 void Network::SslServer::incomingConnection(int fd)
 {
-  Log::warn("here");
-  QSslSocket *serverSocket = new QSslSocket;
-  if (serverSocket->setSocketDescriptor(fd))
+    QSslSocket *serverSocket = new QSslSocket;
+    if (serverSocket->setSocketDescriptor(fd))
     {
-      QList<QSslCertificate> certs = QSslCertificate::fromPath("/tmp/server.crt");
-      qDebug() << "Loaded # certs from disk:" << certs.size();
-      qDebug() << "Cert is null?" << certs.first().isNull();
+        QList<QSslCertificate> certs = QSslCertificate::fromPath("/tmp/server.crt");
+        if (!(certs.size() >= 1 && !certs.first().isNull()))
+        {
+            Log::error("No certificate found, dropping connection");
+            serverSocket->deleteLater();
+            return;
+        }
 
+        connect(serverSocket, SIGNAL(modeChanged(QSslSocket::SslMode)),
+                this, SLOT(onModeChanged(QSslSocket::SslMode)));
+        connect(serverSocket, SIGNAL(encrypted()), Network::_manager, SLOT(newSslClient()));
+        connect(serverSocket, SIGNAL(encrypted()), this, SLOT(LOLSLOT()));
+        connect(serverSocket, SIGNAL(sslErrors(const QList<QSslError> &)),
+                this, SLOT(onSslError(const QList<QSslError> &)));
+        connect(serverSocket, SIGNAL(disconnected()), this, SLOT(onDisconnectedSocket()));
+        connect(serverSocket, SIGNAL(error(QAbstractSocket::SocketError)),
+                SLOT(onSocketError(QAbstractSocket::SocketError)));
 
-      connect(serverSocket, SIGNAL(modeChanged(QSslSocket::SslMode)),
-	      this, SLOT(OnModeChanged(QSslSocket::SslMode)));
-      serverSocket->setLocalCertificate(certs.first());
-      serverSocket->setPrivateKey("/tmp/server.key");
-      serverSocket->setProtocol(QSsl::TlsV1SslV3);
-
-      serverSocket->setPeerVerifyMode(QSslSocket::VerifyNone);
-      //        connect(serverSocket, SIGNAL(encrypted()), Network::_manager, SLOT(newSslClient()));
-      connect(serverSocket, SIGNAL(encrypted()), this, SLOT(LOLSLOT()));
-      connect(serverSocket, SIGNAL(sslErrors(const QList<QSslError> &)),
-	      this, SLOT(onSslError(const QList<QSslError> &)));
-      connect(serverSocket, SIGNAL(disconnected()), this, SLOT(OnDisconnectedSocket()));
-      connect(serverSocket, SIGNAL(error(QAbstractSocket::SocketError)), SLOT(OnSocketError(QAbstractSocket::SocketError)));
-      Log::warn("s state = " + QString::number(serverSocket->state()));
-	
-      serverSocket->startServerEncryption();
-      //        addPendingConnection(serverSocket);
+        serverSocket->setLocalCertificate(certs.first());
+        serverSocket->setPrivateKey("/tmp/server.key");
+        serverSocket->setProtocol(QSsl::TlsV1SslV3);
+        serverSocket->setPeerVerifyMode(QSslSocket::VerifyNone);
+        serverSocket->startServerEncryption();
+        connect(serverSocket, SIGNAL(readyRead()), this,
+                SLOT(onReadyRead()));
+        addPendingConnection(serverSocket);
     }
-  else
+    else
     {
-      delete serverSocket;
+        delete serverSocket;
     }
 }
 
-void Network::SslServer::OnModeChanged(QSslSocket::SslMode m)
+void Network::SslServer::onModeChanged(QSslSocket::SslMode m)
 {
-  Log::warn("New socket state = " + QString::number(m));
+    Log::debug("New socket state = " + QString::number(m));
 }
 
 void Network::SslServer::onSslError(const QList<QSslError> &e)
@@ -69,23 +73,22 @@ void Network::SslServer::onSslError(const QList<QSslError> &e)
     Log::error("SSL ERROR");
 }
 
-void Network::SslServer::OnDisconnectedSocket()
+void Network::SslServer::onDisconnectedSocket()
 {
     Log::warn("socket disconnected");
 }
 
-void Network::SslServer::OnSocketError(QAbstractSocket::SocketError socketError)
+void Network::SslServer::onSocketError(QAbstractSocket::SocketError socketError)
 {
     QTcpSocket *s = qobject_cast<QTcpSocket *>(QObject::sender());
-    Log::debug("nb ciphers = " + QString::number(QSslSocket::defaultCiphers().size()));
-    for (auto i : QSslSocket::defaultCiphers().toStdList())
-    {
-        Log::debug("Cipher: " + i.name());
-    }
-    Log::error("socket error : " + s->errorString());
+    if (s)
+        Log::error("socket error : " + s->errorString());
 }
 
-void Network::SslServer::LOLSLOT()
+void Network::SslServer::onReadyRead()
 {
-    Log::error("LOLSLOT");
+    QSslSocket *s = qobject_cast<QSslSocket *>(QObject::sender());
+    
+    if (s)
+        Log::debug("Read...: " + QString(s->readAll().constData()));
 }
