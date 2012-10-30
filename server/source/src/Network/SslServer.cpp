@@ -12,6 +12,7 @@
 #include <QByteArray>
 
 #include "Log.hpp"
+#include "Network/SslClient.hpp"
 
 Network::SslServer::SslServer() : QTcpServer(0)
 {
@@ -27,39 +28,38 @@ Network::SslServer::~SslServer()
 
 void Network::SslServer::incomingConnection(int fd)
 {
-    QSslSocket *serverSocket = new QSslSocket;
-    if (serverSocket->setSocketDescriptor(fd))
+    SslClient *clientSocket = new SslClient;
+    if (clientSocket->setSocketDescriptor(fd))
     {
         QList<QSslCertificate> certs = QSslCertificate::fromPath("/tmp/server.crt");
         if (!(certs.size() >= 1 && !certs.first().isNull()))
         {
             Log::error("No certificate found, dropping connection");
-            serverSocket->deleteLater();
+            clientSocket->deleteLater();
             return;
         }
 
-        connect(serverSocket, SIGNAL(modeChanged(QSslSocket::SslMode)),
+        connect(clientSocket, SIGNAL(modeChanged(QSslSocket::SslMode)),
                 this, SLOT(onModeChanged(QSslSocket::SslMode)));
-        connect(serverSocket, SIGNAL(encrypted()), Network::_manager, SLOT(newSslClient()));
-        connect(serverSocket, SIGNAL(encrypted()), this, SLOT(LOLSLOT()));
-        connect(serverSocket, SIGNAL(sslErrors(const QList<QSslError> &)),
+        connect(clientSocket, SIGNAL(encrypted()), clientSocket, SLOT(onEncrypted()));
+        connect(clientSocket, SIGNAL(encrypted()), Network::_manager, SLOT(onNewSslClient()));
+        connect(clientSocket, SIGNAL(sslErrors(const QList<QSslError> &)),
                 this, SLOT(onSslError(const QList<QSslError> &)));
-        connect(serverSocket, SIGNAL(disconnected()), this, SLOT(onDisconnectedSocket()));
-        connect(serverSocket, SIGNAL(error(QAbstractSocket::SocketError)),
+        connect(clientSocket, SIGNAL(disconnected()), this, SLOT(onDisconnectedSocket()));
+        connect(clientSocket, SIGNAL(error(QAbstractSocket::SocketError)),
                 SLOT(onSocketError(QAbstractSocket::SocketError)));
 
-        serverSocket->setLocalCertificate(certs.first());
-        serverSocket->setPrivateKey("/tmp/server.key");
-        serverSocket->setProtocol(QSsl::TlsV1SslV3);
-        serverSocket->setPeerVerifyMode(QSslSocket::VerifyNone);
-        serverSocket->startServerEncryption();
-        connect(serverSocket, SIGNAL(readyRead()), this,
-                SLOT(onReadyRead()));
-        addPendingConnection(serverSocket);
+        clientSocket->setLocalCertificate(certs.first());
+        clientSocket->setPrivateKey("/tmp/server.key");
+        clientSocket->setProtocol(QSsl::TlsV1SslV3);
+        clientSocket->setPeerVerifyMode(QSslSocket::VerifyNone);
+        clientSocket->startServerEncryption();
+
+        addPendingConnection(clientSocket);
     }
     else
     {
-        delete serverSocket;
+        delete clientSocket;
     }
 }
 
@@ -76,6 +76,10 @@ void Network::SslServer::onSslError(const QList<QSslError> &e)
 void Network::SslServer::onDisconnectedSocket()
 {
     Log::warn("socket disconnected");
+    SslClient *s = qobject_cast<SslClient *>(QObject::sender());
+
+    Network::_manager->clientFromSsl(s)->setSslClient(0);
+    s->deleteLater();
 }
 
 void Network::SslServer::onSocketError(QAbstractSocket::SocketError socketError)
@@ -83,12 +87,4 @@ void Network::SslServer::onSocketError(QAbstractSocket::SocketError socketError)
     QTcpSocket *s = qobject_cast<QTcpSocket *>(QObject::sender());
     if (s)
         Log::error("socket error : " + s->errorString());
-}
-
-void Network::SslServer::onReadyRead()
-{
-    QSslSocket *s = qobject_cast<QSslSocket *>(QObject::sender());
-    
-    if (s)
-        Log::debug("Read...: " + QString(s->readAll().constData()));
 }

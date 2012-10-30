@@ -8,6 +8,7 @@
 #include "Network/Manager.hpp"
 #include "Log.hpp"
 #include "Boot.hpp"
+#include "Network/SslClient.hpp"
 #include <QtNetwork/QSslSocket>
 #include <QtNetwork/QTcpSocket>
 
@@ -26,7 +27,6 @@ Network::Manager::~Manager()
 void Network::Manager::init(bool &success)
 {
     _sslSrv = new Network::SslServer;
-//    connect(_sslSrv, SIGNAL(newReadyConnection()), this, SLOT(newSslClient()));
     success = _sslSrv->listen(QHostAddress::Any, 31337);
     if (success)
         Log::info("Listening on port" + QString::number(_sslSrv->serverPort()));
@@ -37,18 +37,22 @@ void Network::Manager::shutdownModule()
     Log::info("Network module shutting down...");
 }
 
-void Network::Manager::newSslClient()
+void Network::Manager::onNewSslClient()
 {
-    QTcpSocket *clientConnection = _sslSrv->nextPendingConnection();
-//
-//        QObject::connect(clientConnection, SIGNAL(disconnected()),
-//                       clientConnection, SLOT(deleteLater()));
+    SslClient *s = static_cast<SslClient *> (_sslSrv->nextPendingConnection());
+    Client    *c = new Client;
+    
+    c->setSslClient(s);
+    c->setToken(rand());
+//    QMetaObject::invokeMethod(MainThread::_manager, "newClient");
+}
 
-    QSslSocket *ssl;
-
-    ssl = dynamic_cast<QSslSocket *> (clientConnection);
-    if (!ssl)
-        Log::warn("NO SSL SOCKET IN NEW SSL CLIENT");
-    else
-        Log::info("OK SSL SOCKET");
+Network::Client *Network::Manager::clientFromSsl(const SslClient *s)
+{
+    for (auto c : _clients.toStdList())
+    {
+        if (c->sslClient() == s)
+            return c;
+    }
+    return 0;
 }

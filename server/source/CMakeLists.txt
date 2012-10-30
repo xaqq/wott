@@ -4,12 +4,14 @@ FIND_PACKAGE(Qt4 REQUIRED)
 
 include_directories ("${PROJECT_SOURCE_DIR}/includes"
   "${PROJECT_SOURCE_DIR}/includes/event")
-SET(CMAKE_CXX_FLAGS "-W -Wall -std=c++0x")
+SET(CMAKE_CXX_FLAGS "-W -Wall -g -std=c++0x")
 
 SET(wott_SOURCES src/main.cpp
   src/Boot.cpp
   src/WottApplication.cpp
   src/sigDaemon.cpp
+  src/Client.cpp
+  src/Manager.cpp
   src/Log.cpp
   src/Log/Manager.cpp
   src/Log/AbstractLogger.cpp
@@ -19,12 +21,16 @@ SET(wott_SOURCES src/main.cpp
   src/Network.cpp
   src/Network/Manager.cpp
   src/Network/SslServer.cpp
+  src/Network/Client.cpp
+  src/Network/SslClient.cpp
   )
 
 SET(wott_HEADERS includes/Wott.hpp
   includes/Boot.hpp
   includes/sigDaemon.hpp
   includes/WottApplication.hpp
+  includes/Client.hpp
+  includes/Manager.hpp
   includes/Log.hpp
   includes/Log/Manager.hpp
   includes/Log/AbstractLogger.hpp
@@ -33,6 +39,8 @@ SET(wott_HEADERS includes/Wott.hpp
   includes/Sql/Manager.hpp
   includes/Network/Manager.hpp
   includes/Network/SslServer.hpp
+  includes/Network/Client.hpp
+  includes/Network/SslClient.hpp
 )
 
 QT4_WRAP_CPP(wott_HEADERS_MOC ${wott_HEADERS})

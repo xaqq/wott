@@ -12,6 +12,7 @@
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QSslSocket>
 #include <QtNetwork/QSslError>
+#include "Network/SslClient.hpp"
 
 namespace Network
 {
@@ -31,7 +32,6 @@ public slots:
     void onDisconnectedSocket();
     void onSocketError(QAbstractSocket::SocketError socketError);
     void onModeChanged(QSslSocket::SslMode m);
-    void onReadyRead();
     
 private:
 

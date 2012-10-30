@@ -11,10 +11,19 @@
 #include "Wott.hpp"
 #include "Network/SslServer.hpp"
 #include <QList>
+#include "Network/SslClient.hpp"
+#include "Network/Client.hpp"
 
 namespace Network
 {
 
+/**
+ * \brief Network manager class. 
+ * 
+ * This class is the network manager. It lives in Network::_thread thread.
+ * It owns a SslServer object. It also manages a list of SslClient and TcpClient
+ * objects.
+ */
 class Manager : public QObject
 {
     Q_OBJECT
@@ -22,6 +31,8 @@ public:
     Manager();
     Manager(const Manager& orig);
     virtual ~Manager();
+    
+    Client      *clientFromSsl(const SslClient *);
 
 public slots:
     /**
@@ -40,12 +51,19 @@ public slots:
      */
     void init(bool &success);
 
-    void newSslClient();
+    /**
+     * Method called when a new ssl connection has been successfully
+     * established with the server.
+     * You can get the connection using _sslSrv->nextPendingConnection();
+     * It will create a new Network::Client instance.
+     */
+    void onNewSslClient();
 
 
 private:
-    SslServer *_sslSrv;
-
+    SslServer           *_sslSrv;
+    QList<Client *>     _clients;
+    
 };
 }
 

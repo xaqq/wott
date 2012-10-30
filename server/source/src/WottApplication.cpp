@@ -9,6 +9,7 @@
 #include "WottApplication.hpp"
 #include "Log.hpp"
 #include "Sql.hpp"
+#include "Network.hpp"
 #include <iostream>
 #include <unistd.h>
 #include <qt4/QtCore/qobjectdefs.h>
@@ -45,6 +46,7 @@ void WottApplication::shutdownServer()
 {
     QMetaObject::invokeMethod(Sql::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
     QMetaObject::invokeMethod(Log::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
+    QMetaObject::invokeMethod(Network::_manager, "shutdownModule", Qt::BlockingQueuedConnection);
     std::cout << "Server shutdown complete" << std::endl;
     exit(0);
 }
